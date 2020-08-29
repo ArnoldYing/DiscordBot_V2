@@ -6,5 +6,6 @@
 1.  Stream notification
 2.  Bot Commands (music, interactions)
 3.  Ping system
+4.  Event organization
 
 ### and more features coming soon!
