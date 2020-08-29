@@ -10,24 +10,23 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 # create the client object
 client = commands.Bot(command_prefix='!')
 
+# commands to load, unload, and reload cog extensions
 @client.command()
-async def ping(ctx):
-    await ctx.send('Pong!')
+async def load(ctx, extension):
+    client.load_extension(f'cogs.{extension}')
 
+@client.command()
+async def unload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
 
-@client.event
-async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
-    await client.change_presence(status=discord.Status.online, activity=discord.Game("with a fidget spinner"))
+@client.command()
+async def reload(ctx, extension):
+    client.unload_extension(f'cogs.{extension}')
+    client.load_extension(f'cogs.{extension}')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('hello'):
-        await message.channel.send('Hello!')
-    
-    await client.process_commands(message)
+# initialize all the cogs extensions before running the bot
+for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+        client.load_extension(f'cogs.{filename[:-3]}')
 
 client.run(TOKEN)
