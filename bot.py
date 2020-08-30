@@ -10,6 +10,12 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 # create the client object
 client = commands.Bot(command_prefix='!')
 
+@client.event
+async def on_ready():
+    print('Bot Online')
+    print(f'Username: {client.user.name}')
+    print(f'Client ID: {client.user.id}')
+
 # commands to load, unload, and reload cog extensions
 @client.command()
 async def load(ctx, extension):
